@@ -17,13 +17,17 @@ public class StudentController {
         this.studentService = studentService;
     }
     @PostMapping("/create")
-    public ResponseEntity<Student> createStudent(@RequestBody Student student){
+    public ResponseEntity<Object> createStudent(@RequestBody Student student){
 
-        Student createdStudent = studentService.createStudent(student);
+        Object createdStudent = studentService.createStudent(student);
+        if(createdStudent instanceof String) {
+            return ResponseEntity
+                    .status(409)   // CONFLICT
+                    .body(createdStudent); // "Student with this ID is already present!"
+        }
 
         return ResponseEntity.status(201).body(createdStudent);
     }
-
     @GetMapping("/get/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable Long id){
         Student studentResp = studentService.getStudent(id);
@@ -73,6 +77,15 @@ public class StudentController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok("Delete All Success");
+    }
+    @PatchMapping("/softDelete/{id}")
+    public ResponseEntity<String> softDeleteStudents(@PathVariable Long id){
+        //quiery mus
+        Boolean isDeleted = studentService.softDeleteStudents(id);
+        if(!isDeleted){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("Soft Delete Success");
     }
 
 

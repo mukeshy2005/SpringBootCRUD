@@ -15,26 +15,34 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public Student createStudent(Student studentReq) {
+    public Object createStudent(Student studentReq) {
 
 
+        Optional<Student> existingStudent = studentRepository.findById(studentReq.getId());
+        if(existingStudent.isPresent()) {
+            return "Student with this ID is already present!";
+        }
+        studentReq.setDeleted(false);
         Student studentResp = studentRepository.save(studentReq);
 
         return studentResp;
     }
     public Student getStudent(Long id) {
-        Optional<Student> studentResp = studentRepository.findById(id);
+        //query must be select * from student where id =1 and delete = false
+        Optional<Student> studentResp = studentRepository.findByIdAndDeletedIsFalse(id);
         if(studentResp.isPresent()){
             return studentResp.get();
         }
         return null;
     }
     public List<Student> getAllStudent() {
-        List<Student> studentList = studentRepository.findAll();
+        // query must be select * from student where delete = false
+        List<Student> studentList = studentRepository.findByDeletedIsFalse();
         return  studentList;
     }
     public Student updateStudent(Long id, Student studentReq) {
-        Optional<Student> existingStudent = studentRepository.findById(id);
+        //Query must be
+        Optional<Student> existingStudent = studentRepository.findByIdAndDeletedIsFalse(id);
         if(existingStudent.isEmpty()){
             return null;
         }
@@ -47,12 +55,13 @@ public class StudentService {
         return studentRepository.save(studentToSave);
     }
     public List<Student> updateAllStudent(List<Student> studentList) {
-        List<Student> allStudent = studentRepository.findAll(); // Fetches all 3 students
+        List<Student> allStudent =
+                studentRepository.findByDeletedIsFalse();
 
         for(Student newStudentData : studentList) {
             for(Student dbStudent : allStudent) {
-                // If the IDs match, update the fields
-                if(dbStudent.getId() == newStudentData.getId()) {
+                // ✅ .equals() use kiya Long comparison ke liye
+                if(dbStudent.getId()==(newStudentData.getId())) {
                     dbStudent.setName(newStudentData.getName());
                     dbStudent.setAge(newStudentData.getAge());
                     dbStudent.setRollNo(newStudentData.getRollNo());
@@ -61,8 +70,6 @@ public class StudentService {
                 }
             }
         }
-
-        // Save the updated list back to the database
         return studentRepository.saveAll(allStudent);
     }
     public Boolean deleteStudent(Long id) {
@@ -76,6 +83,17 @@ public class StudentService {
     public Boolean deleteAllStudent() {
          studentRepository.deleteAll();
          return true;
+    }
+    public Boolean softDeleteStudents(Long id) {
+        Optional<Student> existingStudent =
+                studentRepository.findByIdAndDeletedIsFalse(id); // ✅ fixed!
+        if(existingStudent.isEmpty()){
+            return false;
+        }
+        Student studentToSave = existingStudent.get();
+        studentToSave.setDeleted(true);
+        studentRepository.save(studentToSave);
+        return true;
     }
 
 }

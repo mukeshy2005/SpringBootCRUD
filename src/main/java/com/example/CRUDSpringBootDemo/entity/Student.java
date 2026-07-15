@@ -14,6 +14,7 @@ public class Student {
     private int age;
     private int rollNo;
     private String subject;
+    private Boolean deleted;
 
     public String getName() {
         return name;
@@ -61,5 +62,13 @@ public class Student {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }
