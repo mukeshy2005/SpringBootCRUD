@@ -1,25 +1,11 @@
-package com.example.CRUDSpringBootDemo.entity;
+package com.example.CRUDSpringBootDemo.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+public class StudentRequestDto {
     private String name;
     private String email;
     private int age;
     private int rollNo;
     private String subject;
-    private Boolean deleted;
-
-//    private String createdAt;
-//    private String updatedAt;
 
     public String getName() {
         return name;
@@ -59,21 +45,5 @@ public class Student {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.CRUDSpringBootDemo.service;
 
+import com.example.CRUDSpringBootDemo.dto.StudentRequestDto;
+import com.example.CRUDSpringBootDemo.dto.StudentResponseDto;
 import com.example.CRUDSpringBootDemo.entity.Student;
 import com.example.CRUDSpringBootDemo.repository.StudentRepository;
 import org.springframework.stereotype.Component;
@@ -15,17 +17,21 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public Object createStudent(Student studentReq) {
+    public StudentResponseDto createStudent(StudentRequestDto studentReqDto) {
 
 
-        Optional<Student> existingStudent = studentRepository.findById(studentReq.getId());
-        if(existingStudent.isPresent()) {
-            return "Student with this ID is already present!";
-        }
-        studentReq.setDeleted(false);
-        Student studentResp = studentRepository.save(studentReq);
+//        Optional<Student> existingStudent = studentRepository.findById(studentReqDto.getId());
+//        if(existingStudent.isPresent()) {
+//            return "Student with this ID is already present!";
+//        }
+//        studentReq.setDeleted(false);
+//        Student studentResp = studentRepository.save(studentReq);
+//
+//        return studentResp;
+        Student student = mapToEntity(studentReqDto);
+        Student studentResp  =  studentRepository.save(student);
+        return mapToDto(studentResp);
 
-        return studentResp;
     }
     public Student getStudent(Long id) {
         //query must be select * from student where id =1 and delete = false
@@ -94,6 +100,32 @@ public class StudentService {
         studentToSave.setDeleted(true);
         studentRepository.save(studentToSave);
         return true;
+    }
+
+    //method response dto and request dto
+    private Student mapToEntity(StudentRequestDto studentReqDto) {
+        Student student = new Student();
+        student.setName(studentReqDto.getName());
+        student.setAge(studentReqDto.getAge());
+        student.setRollNo(studentReqDto.getRollNo());
+        student.setSubject(studentReqDto.getSubject());
+        student.setEmail(studentReqDto.getEmail());
+        student.setDeleted(false);
+        return student;
+
+        //instead of above method use builder design method
+
+    }
+    private StudentResponseDto mapToDto(Student student) {
+        StudentResponseDto studentResponseDto = new StudentResponseDto();
+        studentResponseDto.setId(student.getId());
+        studentResponseDto.setName(student.getName());
+        studentResponseDto.setAge(student.getAge());
+        studentResponseDto.setRollNo(student.getRollNo());
+        studentResponseDto.setSubject(student.getSubject());
+        studentResponseDto.setEmail(student.getEmail());
+        studentResponseDto.setMessage("student saved successfully");
+        return studentResponseDto;
     }
 
 }

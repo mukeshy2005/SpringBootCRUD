@@ -1,5 +1,7 @@
 package com.example.CRUDSpringBootDemo.controller;
 
+import com.example.CRUDSpringBootDemo.dto.StudentRequestDto;
+import com.example.CRUDSpringBootDemo.dto.StudentResponseDto;
 import com.example.CRUDSpringBootDemo.entity.Student;
 import com.example.CRUDSpringBootDemo.service.StudentService;
 import org.springframework.http.HttpStatus;
@@ -17,14 +19,15 @@ public class StudentController {
         this.studentService = studentService;
     }
     @PostMapping("/create")
-    public ResponseEntity<Object> createStudent(@RequestBody Student student){
+    public ResponseEntity<StudentResponseDto> createStudent(@RequestBody StudentRequestDto studentRequestDto) {
 
-        Object createdStudent = studentService.createStudent(student);
-        if(createdStudent instanceof String) {
-            return ResponseEntity
-                    .status(409)   // CONFLICT
-                    .body(createdStudent); // "Student with this ID is already present!"
-        }
+//        Object createdStudent = studentService.createStudent(studentRequestDto);
+//        if(createdStudent instanceof String) {
+//            return ResponseEntity
+//                    .status(409)   // CONFLICT
+//                    .body(createdStudent); // "Student with this ID is already present!"
+//        }
+         StudentResponseDto createdStudent = studentService.createStudent(studentRequestDto);
 
         return ResponseEntity.status(201).body(createdStudent);
     }
