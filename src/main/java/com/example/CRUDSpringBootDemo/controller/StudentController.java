@@ -1,7 +1,9 @@
 package com.example.CRUDSpringBootDemo.controller;
 
-import com.example.CRUDSpringBootDemo.dto.StudentRequestDto;
-import com.example.CRUDSpringBootDemo.dto.StudentResponseDto;
+import com.example.CRUDSpringBootDemo.dto.CreateStudentRequestDto;
+import com.example.CRUDSpringBootDemo.dto.CreateStudentResponseDto;
+import com.example.CRUDSpringBootDemo.dto.UpdateStudentRequestDto;
+import com.example.CRUDSpringBootDemo.dto.UpdateStudentResponseDto;
 import com.example.CRUDSpringBootDemo.entity.Student;
 import com.example.CRUDSpringBootDemo.service.StudentService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,7 @@ public class StudentController {
         this.studentService = studentService;
     }
     @PostMapping("/create")
-    public ResponseEntity<StudentResponseDto> createStudent(@RequestBody StudentRequestDto studentRequestDto) {
+    public ResponseEntity<CreateStudentResponseDto> createStudent(@RequestBody CreateStudentRequestDto studentRequestDto) {
 
 //        Object createdStudent = studentService.createStudent(studentRequestDto);
 //        if(createdStudent instanceof String) {
@@ -27,7 +29,7 @@ public class StudentController {
 //                    .status(409)   // CONFLICT
 //                    .body(createdStudent); // "Student with this ID is already present!"
 //        }
-         StudentResponseDto createdStudent = studentService.createStudent(studentRequestDto);
+         CreateStudentResponseDto createdStudent = studentService.createStudent(studentRequestDto);
 
         return ResponseEntity.status(201).body(createdStudent);
     }
@@ -48,12 +50,12 @@ public class StudentController {
         return ResponseEntity.status(200).body(studentList);
     }
     @PutMapping("/update")
-    public ResponseEntity<Student> updateStudent(@RequestParam Long id,@RequestBody Student studentReq){
-        Student studentResp = studentService.updateStudent(id, studentReq);
-        if(studentResp == null){
+    public ResponseEntity<UpdateStudentResponseDto> updateStudent(@RequestParam Long id, @RequestBody UpdateStudentRequestDto studentUpdateReqDto){
+        UpdateStudentResponseDto studentUpdateRespDto = studentService.updateStudent(id, studentUpdateReqDto);
+        if(studentUpdateRespDto == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.status(200).body(studentResp);
+        return ResponseEntity.status(200).body(studentUpdateRespDto);
     }
     //creating updateAll
     @PutMapping("/updateAll")

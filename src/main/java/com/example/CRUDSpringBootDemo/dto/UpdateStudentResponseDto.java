@@ -1,6 +1,8 @@
 package com.example.CRUDSpringBootDemo.dto;
 
-public class StudentResponseDto {
+import java.time.LocalDateTime;
+
+public class UpdateStudentResponseDto {
     private long id;
 
     private String name;
@@ -9,6 +11,8 @@ public class StudentResponseDto {
     private int rollNo;
     private String subject;
     private String message;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public long getId() {
         return id;
@@ -64,5 +68,21 @@ public class StudentResponseDto {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -1,17 +1,8 @@
-package com.example.CRUDSpringBootDemo.entity;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+package com.example.CRUDSpringBootDemo.dto;
 
 import java.time.LocalDateTime;
-//    private String createdAt;
-//    private String updatedAt;
-@Entity
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+public class CreateStudentResponseDto {
     private long id;
 
     private String name;
@@ -19,9 +10,17 @@ public class Student {
     private int age;
     private int rollNo;
     private String subject;
-    private Boolean deleted;
+    private String message;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -47,14 +46,6 @@ public class Student {
         this.age = age;
     }
 
-    public int getRollNo() {
-        return rollNo;
-    }
-
-    public void setRollNo(int rollNo) {
-        this.rollNo = rollNo;
-    }
-
     public String getSubject() {
         return subject;
     }
@@ -63,20 +54,20 @@ public class Student {
         this.subject = subject;
     }
 
-    public long getId() {
-        return id;
+    public int getRollNo() {
+        return rollNo;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setRollNo(int rollNo) {
+        this.rollNo = rollNo;
     }
 
-    public Boolean getDeleted() {
-        return deleted;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public LocalDateTime getCreatedAt() {

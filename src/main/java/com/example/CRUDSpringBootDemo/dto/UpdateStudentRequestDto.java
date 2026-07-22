@@ -1,8 +1,8 @@
 package com.example.CRUDSpringBootDemo.dto;
 
-public class StudentRequestDto {
+public class UpdateStudentRequestDto {
+
     private String name;
-    private String email;
     private int age;
     private int rollNo;
     private String subject;
@@ -13,14 +13,6 @@ public class StudentRequestDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public int getAge() {
@@ -46,4 +38,5 @@ public class StudentRequestDto {
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
 }
