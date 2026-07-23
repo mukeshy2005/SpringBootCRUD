@@ -3,13 +3,16 @@ package com.example.CRUDSpringBootDemo.dto;
 import jakarta.validation.constraints.*;
 
 public class CreateStudentRequestDto {
-    @NotBlank
+    @NotBlank(message = "can not be blank")
+    @Size(min=2 , max = 20, message ="student name must be 2 to 50 character long" )
     private String name;
-    @Email
+    @NotBlank(message = "can not be blank")
+    @Email(message = "enter valid email")
     private String email;
-    @Min(value = 18)
-    private int age;
-    @NotNull
+    @NotNull(message  = "age is required ")
+    @Min(value = 18,message ="only 18 above can apply")
+    private Integer age;
+    @NotNull(message = "roll number is required ")
     private Integer rollNo;
     @NotBlank
     private String subject;
