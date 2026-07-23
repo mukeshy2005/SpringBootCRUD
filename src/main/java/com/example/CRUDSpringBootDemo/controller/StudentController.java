@@ -6,11 +6,13 @@ import com.example.CRUDSpringBootDemo.dto.UpdateStudentRequestDto;
 import com.example.CRUDSpringBootDemo.dto.UpdateStudentResponseDto;
 import com.example.CRUDSpringBootDemo.entity.Student;
 import com.example.CRUDSpringBootDemo.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+//WE have to use spring boot starter validation
 
 @RestController
 @RequestMapping("/api/students")
@@ -21,7 +23,7 @@ public class StudentController {
         this.studentService = studentService;
     }
     @PostMapping("/create")
-    public ResponseEntity<CreateStudentResponseDto> createStudent(@RequestBody CreateStudentRequestDto studentRequestDto) {
+    public ResponseEntity<CreateStudentResponseDto> createStudent(@RequestBody @Valid CreateStudentRequestDto studentRequestDto) {
 
 //        Object createdStudent = studentService.createStudent(studentRequestDto);
 //        if(createdStudent instanceof String) {
@@ -34,16 +36,17 @@ public class StudentController {
         return ResponseEntity.status(201).body(createdStudent);
     }
     @GetMapping("/get")
-    public ResponseEntity<Student> getStudent(@RequestParam Long id){
-        Student studentResp = studentService.getStudent(id);
+    public ResponseEntity<CreateStudentResponseDto> getStudent(@RequestParam Long id){
+        CreateStudentResponseDto studentResp = studentService.getStudent(id);
         if(studentResp == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.status(200).body(studentResp);
     }
+    //Applying dto for getAll
     @GetMapping("/getAll")
-    public ResponseEntity<List<Student>> getAllStudents(){
-        List<Student> studentList = studentService.getAllStudent();
+    public ResponseEntity<List<CreateStudentResponseDto>> getAllStudents(){
+        List<CreateStudentResponseDto> studentList = studentService.getAllStudent();
         if(studentList.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

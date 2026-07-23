@@ -37,18 +37,20 @@ public class StudentService {
         return mapToDto(studentResp);
 
     }
-    public Student getStudent(Long id) {
+    public CreateStudentResponseDto getStudent(Long id) {
         //query must be select * from student where id =1 and delete = false
         Optional<Student> studentResp = studentRepository.findByIdAndDeletedIsFalse(id);
         if(studentResp.isPresent()){
-            return studentResp.get();
+            return mapToDto(studentResp.get());
         }
         return null;
     }
-    public List<Student> getAllStudent() {
+    public List<CreateStudentResponseDto> getAllStudent() {
         // query must be select * from student where delete = false
         List<Student> studentList = studentRepository.findByDeletedIsFalse();
-        return  studentList;
+        return studentList.stream()
+                .map(this::mapToDto)
+                .toList();
     }
     public UpdateStudentResponseDto updateStudent(Long id, UpdateStudentRequestDto studentUpdateReqDto) {
         //Query must be
